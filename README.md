@@ -2,7 +2,7 @@
 
 Demo ansible repo following the [official documentation](https://docs.ansible.com/ansible/latest/getting_started/get_started_ansible.html).
 
-## Step 1 : invertory
+## Step 1: invertory
 
 I created an inventory [`myhosts.yml`](./myhosts.yml) then listed hosts inside with the `ansible-inventory` command:
 
@@ -63,3 +63,36 @@ ichiraku | SUCCESS => {
 The first host (my own machine) was unreachable because there's no SSH server running.
 
 After reading associated documentation, I ignored the warning for the second host since it wouldn't affect normal use of ansible.
+
+## Step 2: First playbook
+
+I created [`playbook.yml`](./playbook.yml) to ping the hosts and print a message. To use the builtin ansible module I had to use their [Fully Qualified Collection Name (FQCN)](https://docs.ansible.com/ansible/latest/reference_appendices/glossary.html#term-Fully-Qualified-Collection-Name-FQCN) to call them in tasks.
+
+I called the playbook with the `ansible-playbook` command:
+
+```
+delopa@desktop-fedora:~/code/ansible/ansible_quickstart$ ansible-playbook -i myhosts.yml -l ichiraku playbook.yml 
+
+PLAY [My first play] *******************************************************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************************************************
+[WARNING]: Platform linux on host ichiraku is using the discovered Python interpreter at /usr/bin/python3.11, but future installation
+of another Python interpreter could change the meaning of that path. See https://docs.ansible.com/ansible-
+core/2.18/reference_appendices/interpreter_discovery.html for more information.
+ok: [ichiraku]
+
+TASK [Ping my hosts] *******************************************************************************************************************
+ok: [ichiraku]
+
+TASK [Print message] *******************************************************************************************************************
+ok: [ichiraku] => {
+    "msg": "Hello World!"
+}
+
+PLAY RECAP *****************************************************************************************************************************
+ichiraku                   : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+I used the `-l` option to limit the hosts since my machine still lacks a SSH server (see step 1).
+
+I'll get rid of the warning message when I reach the part of setting up `ansible.cfg` file.
