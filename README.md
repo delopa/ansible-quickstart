@@ -1,6 +1,8 @@
 # Ansible Quickstart
 
-Demo ansible repo following the [official documentation](https://docs.ansible.com/ansible/latest/getting_started/get_started_ansible.html).
+My journey on learning the basics of Ansible.
+
+I started following the [official documentation](https://docs.ansible.com/ansible/latest/getting_started/get_started_ansible.html).
 
 ## Step 1: invertory
 
@@ -62,7 +64,7 @@ ichiraku | SUCCESS => {
 
 The first host (my own machine) was unreachable because there's no SSH server running.
 
-After reading associated documentation, I ignored the warning for the second host since it wouldn't affect normal use of ansible.
+After reading associated documentation, I ignored the warning for the second host since it wouldn't affect normal use of Ansible.
 
 ## Step 2: First playbook
 
@@ -96,3 +98,19 @@ ichiraku                   : ok=3    changed=0    unreachable=0    failed=0    s
 I used the `-l` option to limit the hosts since my machine still lacks a SSH server (see step 1).
 
 I'll get rid of the warning message when I reach the part of setting up `ansible.cfg` file.
+
+---
+
+As the official quickstart ends here the steps will be the ones I give myself while reading the documentation as I understand new concepts and discover new potential use cases for Ansible.
+
+---
+
+## Step 3: A custom task
+
+The goal is to create a playbook that updates the `ichiraku` server.
+
+### The theory
+
+`ichiraku` is a Debian based server so I need to find a way to run `apt` commands on the [managed node](https://docs.ansible.com/ansible/latest/getting_started/basic_concepts.html#managed-nodes) in a task, then wrap-up this in a playbook.
+
+The commands I need to use are `apt update` and `apt upgrade -y`. They need to be ran with root privileges.
