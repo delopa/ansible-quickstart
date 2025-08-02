@@ -1,0 +1,12 @@
+- name: Update Debian
+  hosts: myhosts
+  become: yes
+
+  tasks:
+    - name: Upgrade the system
+      ansible.builtin.apt:
+        upgrade: full
+        update_cache: yes
+    - name: Remove dependecies no longer required
+      ansible.builtin.apt:
+        autoremove: yes

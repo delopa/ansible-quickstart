@@ -114,3 +114,35 @@ The goal is to create a playbook that updates the `ichiraku` server.
 `ichiraku` is a Debian based server so I need to find a way to run `apt` commands on the [managed node](https://docs.ansible.com/ansible/latest/getting_started/basic_concepts.html#managed-nodes) in a task, then wrap-up this in a playbook.
 
 The commands I need to use are `apt update` and `apt upgrade -y`. They need to be ran with root privileges.
+
+### What I did
+
+The `ansible.builtin` collection have an `apt` module. I used it as it can provide status codes.
+
+I created the [`update-debian.yml`](./update-debian.yml) playbook to update the APT cache, full-upgrade the system, then remove no longer required dependencies.
+
+I used the `become` property to do a privilege escalation.
+
+```
+delopa@desktop-fedora:~/code/ansible/ansible_quickstart$ ansible-playbook -i myhosts.yml -l ichiraku update-debian.yml --ask-become-pass 
+BECOME password: 
+
+PLAY [Update Debian] *******************************************************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************************************************
+[WARNING]: Platform linux on host ichiraku is using the discovered Python interpreter at /usr/bin/python3.11, but future installation
+of another Python interpreter could change the meaning of that path. See https://docs.ansible.com/ansible-
+core/2.18/reference_appendices/interpreter_discovery.html for more information.
+ok: [ichiraku]
+
+TASK [Upgrade the system] **************************************************************************************************************
+changed: [ichiraku]
+
+TASK [Remove dependecies no longer required] *******************************************************************************************
+changed: [ichiraku]
+
+PLAY RECAP *****************************************************************************************************************************
+ichiraku                   : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+I used the `--ask-become-pass` flag for the `ansible-playbook` command to provide sudo password at runtime.
