@@ -146,3 +146,11 @@ ichiraku                   : ok=3    changed=2    unreachable=0    failed=0    s
 ```
 
 I used the `--ask-become-pass` flag for the `ansible-playbook` command to provide sudo password at runtime.
+
+## Step 4: Secure the become pass
+
+The goal is to store securely the password(s) for the `become` option.
+
+### The theory
+
+Ansible provide a vault feature to store securely some critical stuff. I need to use it to store sudo passwords and map each one to the appropriate host.
