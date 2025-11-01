@@ -154,3 +154,9 @@ The goal is to store securely the password(s) for the `become` option.
 ### The theory
 
 Ansible provide a vault feature to store securely some critical stuff. I need to use it to store sudo passwords and map each one to the appropriate host.
+
+### What I did
+
+I used the `host_vars` method to store the `ansible_become_pass` variable.
+
+I created two files under `host_vars/<host>/`: `crypted.yml` and `plain.yml`. The first one is an ansible vault protected with a passphrase to store the become pass with an alias name, the second one is a standard file mapping the encrypted value to `ansible_become_pass`. This way we can know a value is assigned without decrypting the vault.
