@@ -4,8 +4,6 @@
   become: yes
 
   tasks:
-    - name: Include vaulted vars
-      ansible.builtin.include_vars: ./vault-desktop
     - name: Upgrade the system
       ansible.builtin.apt:
         upgrade: full
