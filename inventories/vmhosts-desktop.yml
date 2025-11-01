@@ -2,3 +2,4 @@ myhosts:
   hosts:
     deb01:
       ansible_host: 192.168.103.218 
+      ansible_become_pass: '{{ deb01_become_pass }}'

@@ -1,8 +1,11 @@
+---
 - name: Update Debian
   hosts: myhosts
   become: yes
 
   tasks:
+    - name: Include vaulted vars
+      ansible.builtin.include_vars: ./vault-desktop
     - name: Upgrade the system
       ansible.builtin.apt:
         upgrade: full
@@ -10,3 +13,4 @@
     - name: Remove dependecies no longer required
       ansible.builtin.apt:
         autoremove: yes
+...
